@@ -16,6 +16,7 @@
 package com.example.android.quakereport;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,25 +32,24 @@ public class EarthquakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list of earthquake locations.
-        ArrayList<String> earthquakes = new ArrayList<>();
-        earthquakes.add("San Francisco");
-        earthquakes.add("London");
-        earthquakes.add("Tokyo");
-        earthquakes.add("Mexico City");
-        earthquakes.add("Moscow");
-        earthquakes.add("Rio de Janeiro");
-        earthquakes.add("Paris");
 
-        // Find a reference to the {@link ListView} in the layout
-        ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        ListView earthquakeListView = (ListView) findViewById(R.id.earthquake_list);
 
-        // Create a new {@link ArrayAdapter} of earthquakes
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, earthquakes);
+        EarthquakeAdapter adapter = new EarthquakeAdapter(this,getListItem());
 
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+    }
+
+    @NonNull
+    private ArrayList<EarthQuakeDetails> getListItem() {
+        ArrayList<EarthQuakeDetails> earthquakes = new ArrayList<>();
+        earthquakes.add(new EarthQuakeDetails("5.4","San Francisco","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("6.0","London","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("7.0","Tokyo","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("3.4","Mexico City","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("4.3","Moscow","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("6.2","Rio de Janeiro","mar 5, 2017"));
+        earthquakes.add(new EarthQuakeDetails("5.0","Paris","mar 5, 2017"));
+        return earthquakes;
     }
 }
