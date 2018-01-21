@@ -16,9 +16,7 @@
 package com.example.android.quakereport;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,24 +30,12 @@ public class EarthquakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
+        ArrayList<EarthQuake> earthQuakeDetails = QueryUtils.extractEarthquakes();
 
         ListView earthquakeListView = (ListView) findViewById(R.id.earthquake_list);
 
-        EarthquakeAdapter adapter = new EarthquakeAdapter(this,getListItem());
+        EarthquakeAdapter adapter = new EarthquakeAdapter(this,earthQuakeDetails);
 
         earthquakeListView.setAdapter(adapter);
-    }
-
-    @NonNull
-    private ArrayList<EarthQuakeDetails> getListItem() {
-        ArrayList<EarthQuakeDetails> earthquakes = new ArrayList<>();
-        earthquakes.add(new EarthQuakeDetails("5.4","San Francisco","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("6.0","London","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("7.0","Tokyo","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("3.4","Mexico City","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("4.3","Moscow","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("6.2","Rio de Janeiro","mar 5, 2017"));
-        earthquakes.add(new EarthQuakeDetails("5.0","Paris","mar 5, 2017"));
-        return earthquakes;
     }
 }

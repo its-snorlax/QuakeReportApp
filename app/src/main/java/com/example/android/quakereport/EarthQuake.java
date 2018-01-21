@@ -6,18 +6,20 @@ import java.text.DateFormat;
  * Created by prayas on 20/1/18.
  */
 
-public class EarthQuakeDetails {
-    private String magnitude;
+public class EarthQuake {
+    private double magnitude;
     private String place;
-    private String date;
+    private Long date;
 
-    public EarthQuakeDetails(String magnitude, String place, String date){
+    public EarthQuake(double magnitude, String place, Long date){
         this.magnitude = magnitude;
         this.place = place;
         this.date = date;
     }
 
-    public String getMagnitude(){
+
+
+    public double getMagnitude(){
         return magnitude;
     }
 
@@ -25,7 +27,7 @@ public class EarthQuakeDetails {
         return place;
     }
 
-    public String getDate(){
+    public Long getDate(){
         return date;
     }
 
