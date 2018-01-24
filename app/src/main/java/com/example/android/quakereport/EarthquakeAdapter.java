@@ -1,7 +1,6 @@
 package com.example.android.quakereport;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,18 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by prayas on 20/1/18.
  */
 
-public class EarthquakeAdapter extends ArrayAdapter<EarthQuake> {
+public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
-    public EarthquakeAdapter(@NonNull Context context, List<EarthQuake> earthquakeList) {
+    public EarthquakeAdapter(@NonNull Context context, List<Earthquake> earthquakeList) {
         super(context,0,earthquakeList);
     }
 
@@ -36,44 +32,32 @@ public class EarthquakeAdapter extends ArrayAdapter<EarthQuake> {
                     R.layout.earthquake_list_item,parent,false);
         }
 
-        EarthQuake currentItem = getItem(position);
+        Earthquake currentItem = getItem(position);
+        EarthquakeViewModel viewModel = new EarthquakeViewModel();
 
         TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
-        String formattedMagnitude = formatMagnitude(currentItem.getMagnitude());
+        String formattedMagnitude = viewModel.formatMagnitude(currentItem.getMagnitude());
         magnitudeView.setText(formattedMagnitude);
 
         GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
         int magnitudeColor = getMagnitudeColor(currentItem.getMagnitude());
         magnitudeCircle.setColor(magnitudeColor);
 
-        String originalLocation = currentItem.getPlace();
-
-        String primaryLocation;
-        String secondaryLocation;
-
-        if (originalLocation.contains("of")) {
-            String[] parts = originalLocation.split("of");
-            secondaryLocation = parts[0] + "of";
-            primaryLocation = parts[1];
-        } else {
-            secondaryLocation = getContext().getString(R.string.near_the);
-            primaryLocation = originalLocation;
-        }
-
         TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.location1);
-        primaryLocationView.setText(primaryLocation);
+        String formattedPrimaryLocation = viewModel.formatLocation(currentItem.getLocation(),1);
+        primaryLocationView.setText(formattedPrimaryLocation);
 
-        TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location2);
-        locationOffsetView.setText(secondaryLocation);
+        TextView secondaryLocationView = (TextView) listItemView.findViewById(R.id.location2);
+        String secondaryLocation = viewModel.formatLocation(currentItem.getLocation(),0);
+        secondaryLocationView.setText(secondaryLocation);
 
-        Date dateObject = new Date(currentItem.getDate());
 
         TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        String formattedDate = formatDate(dateObject);
+        String formattedDate = viewModel.formatDate(currentItem.getDate());
         dateView.setText(formattedDate);
 
         TextView timeView = (TextView) listItemView.findViewById(R.id.time);
-        String formattedTime = formatTime(dateObject);
+        String formattedTime = viewModel.formatTime(currentItem.getDate());
         timeView.setText(formattedTime);
 
         return listItemView;
@@ -119,18 +103,5 @@ public class EarthquakeAdapter extends ArrayAdapter<EarthQuake> {
         return ContextCompat.getColor(getContext(), magnitudeColorResourceId);
     }
 
-    private String formatMagnitude(double magnitude) {
-        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
-        return magnitudeFormat.format(magnitude);
-    }
 
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
-    }
-
-    private String formatTime(Date dateObject) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        return timeFormat.format(dateObject);
-    }
 }
