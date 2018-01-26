@@ -1,41 +1,54 @@
 package com.example.android.quakereport;
 
+import android.content.Context;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by prayas on 24/1/18.
- */
-
 public class EarthquakeViewModel {
 
-    public String formatMagnitude(double magnitude) {
-        DecimalFormat magnitudeFormat = new DecimalFormat("0.0");
-        return magnitudeFormat.format(magnitude);
+    private Earthquake earthquake;
+    private Context context;
+
+    public EarthquakeViewModel(Earthquake earthquake, Context context) {
+        this.earthquake = earthquake;
+        this.context = context;
     }
 
-    private String[] parts = new String[2];
-    public String formatLocation(String location, int i){
-           if(location.contains("of")){
-               parts = location.split("of");
-           }else {
-               parts[0] = "Near the";
-               parts[1] = location;
-           }
-        return parts[i];
+    public String formatMagnitude() {
+        return new DecimalFormat("0.0").format(earthquake.getMagnitude());
     }
-    
 
-    public String formatDate(long date) {
-        Date dateObject = new Date(date);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
+    public String getLocation(){
+        if (hasOfString()) {
+            return getLocationPart(1);
+        }
+        return earthquake.getLocation();
     }
-    
-    public String formatTime(Long date) {
-        Date dateObject = new Date(date);
-        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-        return timeFormat.format(dateObject);
+
+    public String getLandmark() {
+        if (hasOfString()) {
+            return getLocationPart(0);
+        }
+        return context.getString(R.string.near_the);
+    }
+
+    public String formatDate() {
+        Date dateObject = new Date(earthquake.getDate());
+        return new SimpleDateFormat("LLL dd, yyyy").format(dateObject);
+    }
+
+    public String formatTime() {
+        Date dateObject = new Date(earthquake.getDate());
+        return new SimpleDateFormat("h:mm a").format(dateObject);
+    }
+
+    private String getLocationPart(int index) {
+        return earthquake.getLocation().split("of")[index];
+    }
+
+    private boolean hasOfString() {
+        return earthquake.getLocation().contains("of");
     }
 }

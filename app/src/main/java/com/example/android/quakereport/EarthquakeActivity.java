@@ -50,5 +50,5 @@ public class EarthquakeActivity extends AppCompatActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW,earthquakeUri));
             }
         });
-    }   
+    }
 }

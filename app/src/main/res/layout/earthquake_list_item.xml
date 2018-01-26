@@ -31,7 +31,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/location2"
+            android:id="@+id/landmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -40,7 +40,7 @@
             android:text="delhi" />
 
         <TextView
-            android:id="@+id/location1"
+            android:id="@+id/location"
             android:maxLines="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

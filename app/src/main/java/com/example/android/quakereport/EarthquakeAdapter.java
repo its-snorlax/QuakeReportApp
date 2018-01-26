@@ -33,32 +33,28 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         }
 
         Earthquake currentItem = getItem(position);
-        EarthquakeViewModel viewModel = new EarthquakeViewModel();
+        EarthquakeViewModel viewModel = new EarthquakeViewModel(currentItem, parent.getContext());
 
         TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
-        String formattedMagnitude = viewModel.formatMagnitude(currentItem.getMagnitude());
+        String formattedMagnitude = viewModel.formatMagnitude();
         magnitudeView.setText(formattedMagnitude);
 
         GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
         int magnitudeColor = getMagnitudeColor(currentItem.getMagnitude());
         magnitudeCircle.setColor(magnitudeColor);
 
-        TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.location1);
-        String formattedPrimaryLocation = viewModel.formatLocation(currentItem.getLocation(),1);
-        primaryLocationView.setText(formattedPrimaryLocation);
+        TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.location);
+        primaryLocationView.setText(viewModel.getLocation());
 
-        TextView secondaryLocationView = (TextView) listItemView.findViewById(R.id.location2);
-        String secondaryLocation = viewModel.formatLocation(currentItem.getLocation(),0);
-        secondaryLocationView.setText(secondaryLocation);
+        TextView secondaryLocationView = (TextView) listItemView.findViewById(R.id.landmark);
+        secondaryLocationView.setText(viewModel.getLandmark());
 
 
         TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        String formattedDate = viewModel.formatDate(currentItem.getDate());
-        dateView.setText(formattedDate);
+        dateView.setText(viewModel.formatDate());
 
         TextView timeView = (TextView) listItemView.findViewById(R.id.time);
-        String formattedTime = viewModel.formatTime(currentItem.getDate());
-        timeView.setText(formattedTime);
+        timeView.setText(viewModel.formatTime());
 
         return listItemView;
     }
